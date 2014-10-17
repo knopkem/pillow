@@ -84,8 +84,11 @@ private slots:
 	{
 		Pillow::HttpClient *client = static_cast<Pillow::HttpClient*>(sender());
 
-		if (client->error() != Pillow::HttpClient::NoError)
+        if (client->error() != Pillow::HttpClient::NoError)
+        {
+            qWarning() << "network reply error" << client->error();
 			fail();
+        }
 		else
 		{
 			if (--m_remainingRequests == 0)
@@ -128,12 +131,16 @@ private slots:
 	{
 		QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
 
-		if (reply->error() != QNetworkReply::NoError)
+        if (reply->error() != QNetworkReply::NoError)
+        {
+            qWarning() << "network reply error" << reply->error();
 			fail();
+        }
 		else
 		{
-			if (--m_remainingRequests == 0)
+            if (--m_remainingRequests == 0) {
 				finish();
+            }
 			else
 			{
 				reply->deleteLater();
@@ -179,8 +186,11 @@ private slots:
 	{
 		QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
 
-		if (reply->error() != QNetworkReply::NoError)
+        if (reply->error() != QNetworkReply::NoError)
+        {
+            qWarning() << "network reply error" << reply->error();
 			fail();
+        }
 		else
 		{
 			if (--m_remainingRequests == 0)

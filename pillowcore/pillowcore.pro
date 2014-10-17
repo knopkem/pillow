@@ -55,3 +55,16 @@ HEADERS += \
 
 OTHER_FILES += \
     pillowcore.qbs
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../zlib-win64/build/release/ -lzlibstaticd
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../zlib-win64/build/debug/ -lzlibstaticd
+else:unix: LIBS += -L$$PWD/../../zlib-win64/build/ -lzlibstaticd
+
+INCLUDEPATH += $$PWD/../../zlib-win64/build/Debug
+DEPENDPATH += $$PWD/../../zlib-win64/build/Debug
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../zlib-win64/build/release/libzlibstaticd.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../zlib-win64/build/debug/libzlibstaticd.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../zlib-win64/build/release/zlibstaticd.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../zlib-win64/build/debug/zlibstaticd.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../zlib-win64/build/libzlibstaticd.a

@@ -483,7 +483,8 @@ void Pillow::HttpClient::request(const Pillow::HttpClientRequest &request)
 	}
 	else
 	{
-		_hostHeaderValue.data_ptr()->size = 0; // Clear the previosu host header value (if any), without deallocating memory.
+        //_hostHeaderValue.data_ptr()->size = 0; // Clear the previosu host header value (if any), without deallocating memory.
+        _hostHeaderValue.clear();
 
 		if (_device->state() != QAbstractSocket::UnconnectedState)
 			_device->disconnectFromHost();

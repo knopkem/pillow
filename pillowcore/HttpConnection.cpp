@@ -140,11 +140,20 @@ inline void Pillow::HttpConnectionPrivate::initialize()
 	_parser.http_field = &HttpConnectionPrivate::parser_http_field;
 
 	// Clear any leftover data from a previous potentially failed request (that would not have gone though "transitionToCompleted")
-	if (_requestBuffer.capacity() <= Pillow::HttpConnection::MaximumRequestHeaderLength) _requestBuffer.data_ptr()->size = 0;
-	else _requestBuffer.clear();
+    if (_requestBuffer.capacity() <= Pillow::HttpConnection::MaximumRequestHeaderLength) {
+        //_requestBuffer.data_ptr()->size = 0;
+        _requestBuffer.clear();
+    }
+    else {
+        _requestBuffer.clear();
+    }
 	_requestHeadersRef.clear();
-	if (_requestParams.capacity() > 16) _requestParams.clear();
-	else while(!_requestParams.isEmpty()) _requestParams.pop_back();
+    if (_requestParams.capacity() > 16) {
+        _requestParams.clear();
+    }
+    else {
+        while(!_requestParams.isEmpty()) _requestParams.pop_back();
+    }
 
 	// Enter the initial working state and schedule processing of any data already available on the device.
 	transitionToReceivingHeaders();

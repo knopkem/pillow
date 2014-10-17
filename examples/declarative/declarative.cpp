@@ -1,6 +1,6 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QStringList>
-#include <QtGui/QApplication>
+#include <QtWidgets/QApplication>
 #include <QtDeclarative/qdeclarative.h>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeView>

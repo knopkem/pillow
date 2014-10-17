@@ -162,7 +162,7 @@ inline void Pillow::HttpConnectionPrivate::processInput()
 			_requestBuffer.reserve(_requestBuffer.size() + bytesAvailable + 1);
 		qint64 bytesRead = _inputDevice->read(_requestBuffer.data() + _requestBuffer.size(), bytesAvailable);
 		_requestBuffer.data_ptr()->size += bytesRead;
-		_requestBuffer.data_ptr()->data[_requestBuffer.data_ptr()->size] = 0;
+//		_requestBuffer.data_ptr()->data[_requestBuffer.data_ptr()->size] = 0;
 	}
 
 	if (_state == Pillow::HttpConnection::ReceivingHeaders)

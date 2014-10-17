@@ -7,6 +7,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkCookie>
+#include <QtNetwork/QNetworkCookieJar>
 #include <QtCore/QTimer>
 #include "private/zlib.h"
 
@@ -633,7 +634,7 @@ void Pillow::HttpClient::sendRequest()
 
 	if (_hostHeaderValue.isEmpty())
 	{
-		_hostHeaderValue = _request.url.encodedHost();
+        _hostHeaderValue = _request.url.host().toLatin1();
 		if (_request.url.port(80) != 80)
 		{
 			_hostHeaderValue.append(':');
@@ -641,8 +642,8 @@ void Pillow::HttpClient::sendRequest()
 		}
 	}
 
-	QByteArray uri = _request.url.encodedPath();
-	const QByteArray query = _request.url.encodedQuery();
+    QString uri = _request.url.path();
+    const QString query = _request.url.query();
 	if (!query.isEmpty()) uri.append('?').append(query);
 
 	Pillow::HttpHeaderCollection headers;
@@ -651,7 +652,7 @@ void Pillow::HttpClient::sendRequest()
 	for (int i = 0, iE = _request.headers.size(); i < iE; ++i)
 		headers << _request.headers.at(i);
 
-	_requestWriter.write(_request.method, uri, headers, _request.data);
+    _requestWriter.write(_request.method, uri.toLatin1(), headers, _request.data);
 }
 
 void Pillow::HttpClient::messageBegin()

@@ -3,6 +3,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkCookie>
+#include <QtNetwork/QNetworkCookieJar>
 #include <HttpClient.h>
 #include <HttpConnection.h>
 #include <HttpServer.h>
@@ -13,8 +14,8 @@
 
 typedef QList<QByteArray> Chunks;
 Q_DECLARE_METATYPE(Chunks)
-Q_DECLARE_METATYPE(QAbstractSocket::SocketState)
-Q_DECLARE_METATYPE(QNetworkReply::NetworkError)
+//Q_DECLARE_METATYPE(QAbstractSocket::SocketState)
+//Q_DECLARE_METATYPE(QNetworkReply::NetworkError)
 
 //
 // HttpRequestWriter test class
@@ -1151,7 +1152,7 @@ private slots:
 
 			// Should be reset and ready to parse a new response.
 			QVERIFY(!p.hasError());
-			p.messageBeginCallback = 0;
+            //p.messageBeginCallback = 0;
 
 			QCOMPARE(p.inject(response), response.size());
 			QVERIFY(!p.hasError());
@@ -1171,7 +1172,7 @@ private slots:
 
 			// Should be reset and ready to parse a new response.
 			QVERIFY(!p.hasError());
-			p.headersCompleteCallback = 0;
+            //p.headersCompleteCallback = 0;
 
 			QCOMPARE(p.inject(response), response.size());
 			QVERIFY(!p.hasError());
@@ -1191,7 +1192,7 @@ private slots:
 
 			// Should be reset and ready to parse a new response.
 			QVERIFY(!p.hasError());
-			p.messageContentCallback = 0;
+            //p.messageContentCallback = 0;
 
 			QCOMPARE(p.inject(response), response.size());
 			QVERIFY(!p.hasError());
@@ -1211,7 +1212,7 @@ private slots:
 
 			// Should be reset and ready to parse a new response.
 			QVERIFY(!p.hasError());
-			p.messageCompleteCallback = 0;
+            //p.messageCompleteCallback = 0;
 
 			QCOMPARE(p.inject(response), response.size());
 			QVERIFY(!p.hasError());

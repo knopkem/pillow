@@ -16,13 +16,13 @@ private slots:
 		QByteArray ba;
 		QByteArray::DataPtr oldDataPtr = ba.data_ptr();
 		QVERIFY(ba.data_ptr() == oldDataPtr);
-		QVERIFY(ba.data_ptr()->ref > 1); // Should be the multi-referenced shared null.
+        QVERIFY(ba.data_ptr()->ref.atomic > 1); // Should be the multi-referenced shared null.
 		QVERIFY(rawData[5] != '\0');
 
 		// Calling setFromRawDataAndNullterm on a shared byte array should detach it.
 		Pillow::ByteArrayHelpers::setFromRawDataAndNullterm(ba, rawData, 0, 5);
 		QVERIFY(ba.data_ptr() != oldDataPtr);
-		QVERIFY(ba.data_ptr()->ref == 1);
+        QVERIFY(ba.data_ptr()->ref.atomic == 1);
 		QVERIFY(rawData[5] == '\0');
 		QCOMPARE(ba, QByteArray("hello"));
 
@@ -30,7 +30,7 @@ private slots:
 		oldDataPtr = ba.data_ptr();
 		Pillow::ByteArrayHelpers::setFromRawDataAndNullterm(ba, rawData, 6, 5);
 		QVERIFY(ba.data_ptr() == oldDataPtr);
-		QVERIFY(ba.data_ptr()->ref == 1);
+        QVERIFY(ba.data_ptr()->ref.atomic == 1);
 		QVERIFY(rawData[11] == '\0');
 		QCOMPARE(ba, QByteArray("world"));
 
@@ -38,18 +38,18 @@ private slots:
 		QByteArray temp("New Value");
 		ba = temp; temp = QByteArray();
 		ba = QByteArray("New Value");
-		QVERIFY(ba.data_ptr()->ref == 1);
+        QVERIFY(ba.data_ptr()->ref.atomic == 1);
 		QVERIFY(ba.data_ptr() != oldDataPtr);
 		oldDataPtr = ba.data_ptr();
 		Pillow::ByteArrayHelpers::setFromRawDataAndNullterm(ba, rawData, 0, 2);
 		QVERIFY(ba.data_ptr() == oldDataPtr);
-		QVERIFY(ba.data_ptr()->ref == 1);
+        QVERIFY(ba.data_ptr()->ref.atomic == 1);
 		QVERIFY(rawData[2] == '\0');
 		QCOMPARE(ba, QByteArray("he"));
 
 		Pillow::ByteArrayHelpers::setFromRawDataAndNullterm(ba, rawData, 0, 0);
 		QVERIFY(ba.data_ptr() == oldDataPtr);
-		QVERIFY(ba.data_ptr()->ref == 1);
+        QVERIFY(ba.data_ptr()->ref.atomic == 1);
 		QVERIFY(rawData[0] != '\0');
 		QCOMPARE(ba, QByteArray());
 	}
@@ -73,10 +73,10 @@ private slots:
 		// Go ahead and do tests on our replacement setFromRawData.
 		ba = QByteArray();
 		oldDataPtr = ba.data_ptr();
-		QVERIFY(ba.data_ptr()->ref > 1); // Should be the multi-referenced shared null.
+        QVERIFY(ba.data_ptr()->ref.atomic > 1); // Should be the multi-referenced shared null.
 		Pillow::ByteArrayHelpers::setFromRawData(ba, rawData, 0, 5);
 		QVERIFY(ba.data_ptr() != oldDataPtr);
-		QVERIFY(ba.data_ptr()->ref == 1);
+        QVERIFY(ba.data_ptr()->ref.atomic == 1);
 		QVERIFY(rawData[5] != '\0');
 		QCOMPARE(ba, QByteArray("hello"));
 
@@ -85,7 +85,7 @@ private slots:
 		oldDataPtr = ba.data_ptr();
 		Pillow::ByteArrayHelpers::setFromRawData(ba, rawData, 6, 5);
 		QVERIFY(ba.data_ptr() == oldDataPtr);
-		QVERIFY(ba.data_ptr()->ref == 1);
+        QVERIFY(ba.data_ptr()->ref.atomic == 1);
 		QVERIFY(rawData[11] != '\0');
 		QCOMPARE(ba, QByteArray("world"));
 	}

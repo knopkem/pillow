@@ -66,31 +66,37 @@ namespace Pillow
 				target.setRawData("", 0);
 			else
 			{
-				if (target.data_ptr()->ref == 1)
+                /*
+                if (target.data_ptr()->ref.atomic == 1)
 				{
 					target.data_ptr()->data = data + start;
 					target.data_ptr()->alloc = target.data_ptr()->size = length;
 					target.data_ptr()->array[0] = 0;
 				}
 				else
-					target.setRawData(data + start, length);
+                */
+                    target.setRawData(data + start, length);
 				*(data + start + length) = 0; // Null terminate the string.
 			}
+
 		}
 
 		inline void setFromRawData(QByteArray& target, const char* data, int start, int length)
 		{
-			if (target.data_ptr()->ref == 1)
+            /*
+            if (target.data_ptr()->ref.atomic == 1)
 			{
 				target.data_ptr()->data = const_cast<char*>(data) + start;
 				target.data_ptr()->alloc = target.data_ptr()->size = length;
 				target.data_ptr()->array[0] = 0;
 			}
 			else
+                */
 			{
 				target.data_ptr()->alloc = 0;
 				target.setRawData(data + start, length);
 			}
+
 		}
 
 		template <typename Integer, int Base>

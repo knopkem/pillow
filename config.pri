@@ -6,7 +6,7 @@
 #CONFIG += pillow_static
 
 # Uncomment the following to disable SSL support in Pillow.
-#CONFIG += pillow_no_ssl
+CONFIG += pillow_no_ssl
 
 #
 # Project Setup (not configurable)
